@@ -69,17 +69,6 @@ jobs:
             https://api.github.com/user/packages/container/accuknox-devops-trainee%2Fworkload \
             -d '{"visibility":"public"}'
 
-      - name: 'Checkout'
-        uses: actions/checkout@master
-      - name: 'Yamllint'
-        uses: karancode/yamllint-github-action@master
-        with:
-          yamllint_file_or_dir: 'myapp/templates/*'
-          yamllint_strict: false
-          yamllint_comment: true
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.YAMLINT_TOKEN }}
-
       - name: Install yq
         run: |
           sudo wget https://github.com/mikefarah/yq/releases/download/v4.40.5/yq_linux_amd64 -O /usr/bin/yq

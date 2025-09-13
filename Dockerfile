@@ -2,7 +2,7 @@ FROM debian:stable-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
-    netcat \
+    netcat-openbsd \
     fortunes \
     cowsay \
  && rm -rf /var/lib/apt/lists/*
