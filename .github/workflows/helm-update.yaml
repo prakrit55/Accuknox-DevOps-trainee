@@ -37,19 +37,19 @@ jobs:
         id: workload_sha
         run: echo "workload_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Check if backend changed
+      - name: Check if workload changed
         id: workload-changed
         run: |
           if [ "${{ github.event.before }}" == "0000000000000000000000000000000000000000" ] || [ -z "${{ github.event.before }}" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
-            echo "changed=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^apps/backend/' && echo true || echo false)" >> $GITHUB_OUTPUT
+            echo "changed=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^apps/workload/' && echo true || echo false)" >> $GITHUB_OUTPUT
           fi
 
       - name: Build workload Docker image
         if: steps.workload-changed.outputs.changed == 'true'
         run: |
-          docker build -t ghcr.io/${{ steps.repo.outputs.repo }}/workload:${{ steps.backend_sha.outputs.workload_sha }} .
+          docker build -t ghcr.io/${{ steps.repo.outputs.repo }}/workload:${{ steps.workload_sha.outputs.workload_sha }} .
 
       - name: Log in to GHCR
         run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -66,7 +66,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GHCR_PAT }}" \
             -H "X-GitHub-Api-Version: 2025-09-13" \
-            https://api.github.com/user/packages/container/devops-ci-cd-k8s-pipeline-demo%2Fbackend \
+            https://api.github.com/user/packages/container/accuknox-devops-trainee%2Fworkload \
             -d '{"visibility":"public"}'
 
       - name: 'Checkout'
@@ -95,12 +95,12 @@ jobs:
           grep 'tag:' myapp/values.yaml
 
       - name: Auto-commit tag update to helm-update
-        if: github.ref == 'refs/heads/dev' && (steps.backend-changed.outputs.changed == 'true' || steps.frontend-changed.outputs.changed == 'true')
+        if: github.ref == 'refs/heads/dev' && (steps.workload-changed.outputs.changed == 'true' || steps.frontend-changed.outputs.changed == 'true')
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add charts/myapp/values-*.yaml
-          git commit -m "CI: Update image tags to backend:${{ steps.backend_sha.outputs.backend_sha }} || echo "No changes"
+          git commit -m "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }} || echo "No changes"
           git push origin dev
 
       - name: Create Pull Request for tag update to main
@@ -108,8 +108,8 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GHCR_PAT }}
-          commit-message: "CI: Update image tags to backend:${{ steps.workload_sha.outputs.workload_sha }}"
-          title: "CI: Update image tags to backend:${{ steps.workload_sha.outputs.workload_sha }}"
+          commit-message: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
+          title: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
           body: "Automated PR to update image tags in Helm values files."
           branch: "ci/tag-update"
           add-paths: |
