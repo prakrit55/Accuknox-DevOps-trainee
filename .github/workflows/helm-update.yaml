@@ -2,6 +2,7 @@ name: CI/CD Pipeline
 
 permissions:
   contents: write
+  pull-requests: write
 
 on:
   push:
@@ -88,12 +89,16 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add .
-          git commit -m "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
-          git push origin dev
+          git commit -m "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}" 
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GHCR_PAT }}
+          branch: dev
 
       - name: Create Pull Request for tag update to main
         if: github.ref == 'refs/heads/main' && (steps.workload-changed.outputs.changed == 'true')
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GHCR_PAT }}
           commit-message: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
