@@ -95,14 +95,6 @@ jobs:
           github_token: ${{ secrets.GHCR_PAT }}
           branch: dev
 
-      - name: Create and push PR branch
-        run: |
-          git checkout -b workload-update-${{ steps.workload_sha.outputs.workload_sha }}
-          # Make your changes here
-          git add .
-          git commit -m "feat: update workload image"
-          git push origin workload-update-${{ steps.workload_sha.outputs.workload_sha }}
-
       # - name: Create Pull Request for tag update to main
       #   if: github.ref == 'refs/heads/dev' && steps.workload-changed.outputs.changed == 'true'
       #   uses: peter-evans/create-pull-request@v7
@@ -119,7 +111,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7.0.5
         with:
           token: ${{ secrets.GHCR_PAT }}
-          path: ./myapp
+          path: myapp
           commit-message: "feat: update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
           branch: workload-update-${{ steps.workload_sha.outputs.workload_sha }}
           delete-branch: true
