@@ -119,9 +119,11 @@ jobs:
       #     title: "update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
       #     body: "Automated PR from dev to main."
       - name: create pr
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: "sample"
-          title: "auto update"
-          body: "auto update dayo!"
-          base: main
+        run: |
+          gh pr create \
+            --title "chore: update via gh cli" \
+            --body "This PR was created using the GitHub CLI." \
+            --base main \
+            --head $(git rev-parse --abbrev-ref HEAD)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GHCR_PAT }}
