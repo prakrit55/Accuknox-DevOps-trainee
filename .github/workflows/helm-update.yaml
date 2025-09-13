@@ -83,8 +83,6 @@ jobs:
           cat myapp/values.yaml
           
       - name: Auto-commit tag update to helm-update
-        if: |
-          (github.ref == 'refs/heads/dev' && steps.workload-changed.outputs.changed == 'true')
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
@@ -97,7 +95,6 @@ jobs:
           branch: dev
 
       - name: Create Pull Request for tag update to main
-        if: github.ref == 'refs/heads/main' && (steps.workload-changed.outputs.changed == 'true')
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GHCR_PAT }}
