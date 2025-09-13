@@ -95,20 +95,9 @@ jobs:
           github_token: ${{ secrets.GHCR_PAT }}
           branch: dev
 
-      # - name: Create Pull Request for tag update to main
-      #   if: github.ref == 'refs/heads/dev' && steps.workload-changed.outputs.changed == 'true'
-      #   uses: peter-evans/create-pull-request@v7
-      #   with:
-      #     token: ${{ secrets.GHCR_PAT }}
-      #     commit-message: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
-      #     title: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
-      #     body: "Automated PR to update image tags in Helm values files."
-      #     branch: "main"
-      #     add-paths: |
-      #       myapp/values.yaml
       - name: Create Pull Request
         if: steps.workload-changed.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v7.0.5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GHCR_PAT }}
           commit-message: "feat: update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
@@ -119,14 +108,3 @@ jobs:
           body: "Automated PR from dev to main."
           add-paths: |
             myapp/values.yaml
-      # - name: Create pull request
-      #   uses: peter-evans/create-pull-request@v4
-      #   with:
-      #     token: ${{ secrets.GHCR_PAT }}
-      #     commit-message: Update Image
-      #     title: Update Image
-      #     delete-branch: true
-      #     body: |
-      #       Update API from slack-api-ref.
-      #     branch: automated-api-update
-      #     base: main
