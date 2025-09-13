@@ -5,7 +5,7 @@
 replicaCount: 1
 workload:
   image: ghcr.io/prakrit55/accuknox-devops-trainee/workload
-  tag: e15320f
+  tag: c006d6a
   replicaCount: 1
   containerPort: 4499
 imagePullSecrets: []
