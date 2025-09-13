@@ -108,10 +108,11 @@ jobs:
             myapp/values.yaml
       - name: Create Pull Request
         if: steps.workload-changed.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v7.0.5
         with:
           token: ${{ secrets.GHCR_PAT }}
-          branch: dev
+          commit-message: "feat: update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
+          branch: workload-update-${{ steps.workload_sha.outputs.workload_sha }}
           base: main
           title: "Update workload image tag"
           body: "Automated PR from dev to main."
