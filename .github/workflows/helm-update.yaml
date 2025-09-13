@@ -106,15 +106,22 @@ jobs:
           branch: "main"
           add-paths: |
             myapp/values.yaml
-      - name: Create Pull Request
-        if: steps.workload-changed.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v7.0.5
+      # - name: Create Pull Request
+      #   if: steps.workload-changed.outputs.changed == 'true'
+      #   uses: peter-evans/create-pull-request@v7.0.5
+      #   with:
+      #     token: ${{ secrets.GHCR_PAT }}
+      #     path: ./myapp
+      #     commit-message: "feat: update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
+      #     branch: workload-update-${{ steps.workload_sha.outputs.workload_sha }}
+      #     delete-branch: true
+      #     base: main
+      #     title: "update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
+      #     body: "Automated PR from dev to main."
+      - name: create pr
+        uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GHCR_PAT }}
-          path: ./myapp
-          commit-message: "feat: update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
-          branch: workload-update-${{ steps.workload_sha.outputs.workload_sha }}
-          delete-branch: true
+          branch: "sample"
+          title: "auto update"
+          body: "auto update dayo!"
           base: main
-          title: "update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
-          body: "Automated PR from dev to main."
