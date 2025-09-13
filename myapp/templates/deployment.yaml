@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bash-scriptapp-deployment
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: bash-scriptapp
+  template:
+    metadata:
+      labels:
+        app: bash-scriptapp
+    spec:
+      containers:
+        - name: bash-scriptapp-container
+          image: "{{ .Values.workload.image }}:{{ .Values.workload.tag }}"
+          ports:
+            - containerPort: {{ .Values.workload.containerPort }}
