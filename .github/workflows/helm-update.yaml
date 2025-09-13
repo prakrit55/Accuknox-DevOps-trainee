@@ -106,3 +106,12 @@ jobs:
           branch: "main"
           add-paths: |
             myapp/values.yaml
+      - name: Create Pull Request
+        if: steps.workload-changed.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GHCR_PAT }}
+          branch: dev
+          base: main
+          title: "Update workload image tag"
+          body: "Automated PR from dev to main."
