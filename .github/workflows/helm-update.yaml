@@ -116,5 +116,5 @@ jobs:
           branch: workload-update-${{ steps.workload_sha.outputs.workload_sha }}
           delete-branch: true
           base: main
-          title: "Update workload image tag"
+          title: "update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
           body: "Automated PR from dev to main."
