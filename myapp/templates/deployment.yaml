@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: bash-scriptapp-container
-          image: "{{ .Values.workload.image }}:{{ .Values.workload.tag }}"
+          image: "${{ .Values.workload.image }}/workload:${{ .Values.workload.tag }}"
           ports:
             - containerPort: {{ .Values.workload.containerPort }}

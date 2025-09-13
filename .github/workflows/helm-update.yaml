@@ -66,6 +66,10 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/download/v4.40.5/yq_linux_amd64 -O /usr/bin/yq
           sudo chmod +x /usr/bin/yq
 
+      - name: Update workload image name in Helm values
+        run: |
+          yq e '.workload.image = "${{ steps.repo.outputs.repo }}"' -i myapp/values.yaml
+
       - name: Update workload image tag in Helm values
         if: steps.workload-changed.outputs.changed == 'true'
         run: |
