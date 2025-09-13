@@ -101,6 +101,6 @@ jobs:
           commit-message: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
           title: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
           body: "Automated PR to update image tags in Helm values files."
-          branch: "ci/tag-update"
+          branch: "main"
           add-paths: |
             myapp/values.yaml
