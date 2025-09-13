@@ -79,6 +79,7 @@ jobs:
         run: |
           grep 'tag:' myapp/values.yaml
           grep 'image:' myapp/values.yaml
+          cat myapp/values.yaml
           
       - name: Auto-commit tag update to helm-update
         if: github.ref == 'refs/heads/dev' && (steps.workload-changed.outputs.changed == 'true' || steps.frontend-changed.outputs.changed == 'true')
