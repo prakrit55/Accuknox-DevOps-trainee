@@ -86,7 +86,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add .
+          git add myapp/*
           git commit -m "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }} || echo "No changes"
           git push origin dev
 

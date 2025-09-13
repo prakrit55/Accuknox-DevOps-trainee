@@ -6,7 +6,7 @@ replicaCount: 1
 
 workload:
   image: ghcr.io/YOUR_USERNAME/ci-cd-phonebook-demo/backend
-  tag: "1d59818"
+  tag: 1d59818
   replicaCount: 1
   containerPort: 4499
 
