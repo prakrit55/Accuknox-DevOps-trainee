@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: bash-scriptapp-deployment
 spec:
-  replicas: {{ .Values.backend.replicaCount }}
+  replicas: {{ .Values.workload.replicaCount }}
   selector:
     matchLabels:
       app: bash-scriptapp
@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: bash-scriptapp-container
-          image: "${{ .Values.workload.image }}/workload:${{ .Values.workload.tag }}"
+          image: "${{ .Values.workload.image }}:${{ .Values.workload.tag }}"
           ports:
             - containerPort: {{ .Values.workload.containerPort }}
