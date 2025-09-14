@@ -4,8 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     netcat-openbsd \
     fortune-mod \
-    cowsay \
- && rm -rf /var/lib/apt/lists/*
+    cowsay
 
 WORKDIR /app
 

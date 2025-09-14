@@ -11,7 +11,6 @@ get_api() {
 	read line
 	echo $line
 }
-
 handleRequest() {
     # 1) Process the request
 	get_api
