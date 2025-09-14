@@ -106,4 +106,4 @@ jobs:
           base: main
           title: "update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
           body: "Automated PR from dev to main."
-          paths: ./myapp
+          paths: .
