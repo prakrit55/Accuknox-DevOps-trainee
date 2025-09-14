@@ -1,11 +1,9 @@
 FROM ubuntu:24.04
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    fortune-mod \
-    cowsay
+RUN apt update && apt install -y fortune cowsay netcat-openbsd
+ENV PATH="/usr/games:${PATH}"
 
 WORKDIR /app
-
 COPY wisecow.sh /app/wisecow.sh
 RUN chmod +x /app/wisecow.sh
 
