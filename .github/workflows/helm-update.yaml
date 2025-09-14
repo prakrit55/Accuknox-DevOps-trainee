@@ -33,11 +33,11 @@ jobs:
       - name: Check if workload changed
         id: workload-changed
         run: |
-          if [ "${{ github.event.before }}" == "0000000000000000000000000000000000000000" ] || [ -z "${{ github.event.before }}" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "changed=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^wisecow.sh' && echo true || echo false)" >> $GITHUB_OUTPUT
-          fi
+              if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep .; then
+                echo "changed=true" >> $GITHUB_OUTPUT
+              else
+                echo "changed=false" >> $GITHUB_OUTPUT
+              fi
 
       - name: Build workload Docker image
         if: steps.workload-changed.outputs.changed == 'true'
