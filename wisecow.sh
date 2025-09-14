@@ -3,6 +3,7 @@
 SRVPORT=4499
 RSPFILE=response
 
+
 rm -f $RSPFILE
 mkfifo $RSPFILE
 
