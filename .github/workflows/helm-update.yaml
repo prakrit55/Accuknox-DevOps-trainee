@@ -95,35 +95,15 @@ jobs:
           github_token: ${{ secrets.GHCR_PAT }}
           branch: dev
 
-      - name: Create Pull Request for tag update to main
-        if: github.ref == 'refs/heads/dev' && steps.workload-changed.outputs.changed == 'true'
+      - name: Create Pull Request
+        if: steps.workload-changed.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GHCR_PAT }}
-          commit-message: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
-          title: "CI: Update image tags to workload:${{ steps.workload_sha.outputs.workload_sha }}"
-          body: "Automated PR to update image tags in Helm values files."
-          branch: "main"
-          add-paths: |
-            myapp/values.yaml
-      # - name: Create Pull Request
-      #   if: steps.workload-changed.outputs.changed == 'true'
-      #   uses: peter-evans/create-pull-request@v7.0.5
-      #   with:
-      #     token: ${{ secrets.GHCR_PAT }}
-      #     path: ./myapp
-      #     commit-message: "feat: update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
-      #     branch: workload-update-${{ steps.workload_sha.outputs.workload_sha }}
-      #     delete-branch: true
-      #     base: main
-      #     title: "update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
-      #     body: "Automated PR from dev to main."
-      - name: create pr
-        run: |
-          gh pr create \
-            --title "chore: update via gh cli" \
-            --body "This PR was created using the GitHub CLI." \
-            --base main \
-            --head $(git rev-parse --abbrev-ref HEAD)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GHCR_PAT }}
+          commit-message: "feat: update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
+          branch: workload-update-${{ steps.workload_sha.outputs.workload_sha }}
+          delete-branch: true
+          base: main
+          title: "update ${{ steps.workload_sha.outputs.workload_sha }} workload image on main"
+          body: "Automated PR from dev to main."
+          paths: ./myapp

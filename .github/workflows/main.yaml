@@ -21,6 +21,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "myapp"
           target: "/home/ubuntu/Accuknox-DevOps-trainee/"
+
           overwrite: true
       
       - name: Deploy with Helm
@@ -28,13 +29,12 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
-          timeout: 15s  
+          timeout: 3m  
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            pwd
-            ls -la
             cd Accuknox-DevOps-trainee/myapp
-            if helm upgrade --install myapp . -f values.yaml --wait --timeout=10s; then
+            if helm upgrade --install myapp . -f values.yaml --wait --timeout=2m; then
+
               echo "✅ Deployment successful"
               helm status myapp
               kubectl get pods -l app.kubernetes.io/name=myapp
