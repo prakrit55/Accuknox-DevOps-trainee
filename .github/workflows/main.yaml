@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Print current working directory
+        run: pwd
+      - name: List files in current directory
+        run: ls -la
       
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.7
@@ -20,7 +24,7 @@ jobs:
           port: 22
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "myapp/"
-          target: "/home/ubuntu/Accuknox-DevOps-trainee/myapp/"
+          target: "/home/ubuntu/Accuknox-DevOps-trainee/myapp"
           overwrite: true
       
       - name: Deploy with Helm
@@ -31,6 +35,8 @@ jobs:
           timeout: 15s  
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            pwd
+            ls -la
             cd /home/ubuntu/Accuknox-DevOps-trainee/myapp
             if helm upgrade --install myapp . -f values.yaml --wait --timeout=10m; then
               echo "✅ Deployment successful"
