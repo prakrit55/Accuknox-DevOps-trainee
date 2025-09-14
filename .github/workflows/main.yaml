@@ -1,5 +1,4 @@
 name: Helm Deploy to External Cluster
-
 on:
   workflow_dispatch:
   push:
@@ -10,24 +9,34 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v4
+      
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.7
         with:
-          version: v1.30.0
-
-      - name: Install Helm
-        uses: azure/setup-helm@v4
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          port: 22
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "Accuknox-DevOps-trainee/myapp/*"
+          target: "/home/ubuntu/Accuknox-DevOps-trainee/myapp/"
+          overwrite: true
+      
+      - name: Deploy with Helm
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          version: v3.13.0
-
-      - name: Configure kubeconfig
-        run: |
-          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > $HOME/.kube/config
-
-      - name: Deploy app with Helm
-        run: |
-          helm upgrade --install myapp ./myapp --wait
-          kubectl get svc
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/Accuknox-DevOps-trainee/myapp
+            if helm upgrade --install myapp . -f values.yaml --wait --timeout=10m; then
+              echo "✅ Deployment successful"
+              helm status myapp
+              kubectl get pods -l app.kubernetes.io/name=myapp
+            else
+              echo "❌ Deployment failed"
+              helm status myapp
+              exit 1
+            fi
