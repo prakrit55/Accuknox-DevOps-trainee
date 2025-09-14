@@ -1,8 +1,6 @@
-FROM debian:stable-slim
+FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    bash \
-    netcat-openbsd \
     fortune-mod \
     cowsay
 
