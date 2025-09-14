@@ -2,7 +2,6 @@
 
 SRVPORT=4499
 RSPFILE=response
-# publish=80
 
 rm -f $RSPFILE
 mkfifo $RSPFILE
