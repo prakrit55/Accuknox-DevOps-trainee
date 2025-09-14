@@ -17,5 +17,5 @@ spec:
           image: "{{ .Values.workload.image }}:{{ .Values.workload.tag }}"
           ports:
             - containerPort: {{ .Values.workload.containerPort }}
-        imagePullSecrets:
+      imagePullSecrets:
         - name: ghcr-secret
