@@ -23,7 +23,7 @@ jobs:
           username: ubuntu
           port: 22
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "myapp/"
+          source: "myapp/values.yaml"
           target: "Accuknox-DevOps-trainee/myapp"
           overwrite: true
       
