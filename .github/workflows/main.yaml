@@ -19,7 +19,7 @@ jobs:
           username: ubuntu
           port: 22
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "myapp/*"
+          source: "myapp/"
           target: "/home/ubuntu/Accuknox-DevOps-trainee/myapp/"
           overwrite: true
       
@@ -28,6 +28,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
+          timeout: 15s  
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/Accuknox-DevOps-trainee/myapp
