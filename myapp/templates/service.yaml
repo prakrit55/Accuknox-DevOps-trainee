@@ -4,9 +4,9 @@ kind: Service
 metadata:
   name: bash-scriptapp-service
 spec:
-  type: {{ .Values.workload.service.type }}
+  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.workload.service.port }}
+    - port: {{ .Values.service.port }}
       targetPort: {{ .Values.workload.containerPort }}
   selector:
     app: bash-scriptapp
