@@ -19,8 +19,8 @@ jobs:
           username: ubuntu
           port: 22
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "myapp/values.yaml"
-          target: "/home/ubuntu/Accuknox-DevOps-trainee/myapp/values.yaml"
+          source: "myapp"
+          target: "/home/ubuntu/Accuknox-DevOps-trainee/"
           overwrite: true
       
       - name: Deploy with Helm
