@@ -24,11 +24,15 @@ jobs:
 
       - name: Get lowercase repo
         id: repo
-        run: echo "repo=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+        run: |
+          echo "repo=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "repo=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT_WORKLOAD
 
       - name: Get workload SHA
         id: workload_sha
-        run: echo "workload_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          echo "workload_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "workload_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT_WORKLOAD
 
       - name: Check if workload changed
         id: workload-changed

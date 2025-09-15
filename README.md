@@ -8,13 +8,13 @@
 
 ## Task - 03 (A zero-trust KubeArmor policy for the Kubernetes workload )
 
-# KubeArmor Policy: `ksp-bash-scriptapp-proc-path-owner-allow`
+### KubeArmor Policy: `ksp-bash-scriptapp-proc-path-owner-allow`
 
 This policy enforces **owner-only execution** of the script `/app/wisecow.sh` and grants access only to required system binaries and configuration files for controlled root → user1 operations.
 
 ---
 
-## 1. Metadata & Selector
+ 1. Metadata & Selector
 
 ```yaml
 apiVersion: security.kubearmor.com/v1
