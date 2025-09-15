@@ -1,10 +1,10 @@
-# Accunox-DevOps-trainee Tasks
+# Accuknox-DevOps-trainee Tasks
 
 ## Task - 01 ( Title: Containerisation and Deployment of Wisecow Application on Kubernetes )
 
 ## Task - 02
- ![System Health Monitoring Script](scripts/system-utillisation-alert-script.sh)
- ![Log File Analyzer](scripts/httpdnginx-metrics.sh)
+ [System Health Monitoring Script](scripts/system-utillisation-alert-script.sh)
+ [Log File Analyzer](scripts/httpdnginx-metrics.sh)
 
 ## Task - 03 (A zero-trust KubeArmor policy for the Kubernetes workload )
 
