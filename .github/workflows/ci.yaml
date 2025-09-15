@@ -34,10 +34,19 @@ jobs:
         id: workload-changed
         run: |
               if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep .; then
-                echo "changed=true" >> $GITHUB_OUTPUT
+                echo "changed=true" >> $GITHUB_OUTPUT_WORKLOAD
               else
-                echo "changed=false" >> $GITHUB_OUTPUT
+                echo "changed=false" >> $GITHUB_OUTPUT_WORKLOAD
               fi
+      - name: Check if utilities changed
+        id: workload-changed-utilities
+        run: |
+          if [ "${{ github.event.before }}" == "0000000000000000000000000000000000000000" ] || [ -z "${{ github.event.before }}" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^wisecow.sh' && echo true || echo false)" >> $GITHUB_OUTPUT
+          fi
+
 
       - name: Build workload Docker image
         if: steps.workload-changed.outputs.changed == 'true'
@@ -83,7 +92,7 @@ jobs:
           cat myapp/values.yaml
           
       - name: Auto-commit tag update to helm-update
-        if: github.ref == 'refs/heads/dev' && steps.workload-changed.outputs.changed == 'true'
+        if: github.ref == 'refs/heads/dev' && steps.workload-changed.outputs.changed == 'true' || steps.workload-changed-utilities.outputs.changed == 'true'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
@@ -96,7 +105,7 @@ jobs:
           branch: dev
 
       - name: Create Pull Request
-        if: steps.workload-changed.outputs.changed == 'true'
+        if: steps.workload-changed.outputs.changed == 'true' ||  steps.workload-changed-utilities.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GHCR_PAT }}

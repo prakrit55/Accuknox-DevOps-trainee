@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: bash-scriptapp
+        container: bash-scriptapp
     spec:
       containers:
         - name: bash-scriptapp-container
